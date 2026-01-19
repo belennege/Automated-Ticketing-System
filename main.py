@@ -4,23 +4,48 @@ from validation import validate_station
 
 print("=== CTA Automated Ticketing System ===")
 
-start = input("Enter starting station: ")
-end = input("Enter destination station: ")
+# Helper: make station names case-insensitive
+stations_lower = {k.lower(): v for k, v in stations.items()}
 
-if not validate_station(start, stations):
-    print("Invalid starting station.")
-elif not validate_station(end, stations):
-    print("Invalid destination station.")
-elif start == end:
-    print("Start and destination cannot be the same.")
-else:
-    start_zone = stations[start]
-    end_zone = stations[end]
+# Get valid starting station
+while True:
+    start_input = input("Enter starting station: ").strip()
+    
+    if start_input == "":
+        print("You must enter a starting station. Please try again.")
+        continue
 
-    zones, cost = calculate_fare(start_zone, end_zone)
+    if validate_station(start_input.lower(), stations_lower):
+        start = start_input.title()  # normalize for display
+        break
+    else:
+        print("Invalid starting station. Please enter a valid station name.")
 
-    print("\n--- Ticket Summary ---")
-    print("From:", start)
-    print("To:", end)
-    print("Zones crossed:", zones)
-    print("Total cost: $", cost)
+# Get valid destination station
+while True:
+    end_input = input("Enter destination station: ").strip()
+    
+    if end_input == "":
+        print("You must enter a destination station. Please try again.")
+        continue
+
+    if not validate_station(end_input.lower(), stations_lower):
+        print("Invalid destination station. Please re-enter a valid station name.")
+    elif start.lower() == end_input.lower():
+        print("Start and destination stations must be different. Please try again.")
+    else:
+        end = end_input.title()  # normalize for display
+        break
+
+# Calculate fare
+zones, cost = calculate_fare(stations[start], stations[end])
+
+# Display result
+print("\nTicket Details")
+print("---------------")
+print("Start station:", start)
+print("Destination station:", end)
+print("Zones crossed:", zones)
+print("Total cost: $", cost)
+
+
