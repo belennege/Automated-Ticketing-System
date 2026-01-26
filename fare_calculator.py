@@ -3,3 +3,4 @@ def calculate_fare(start_zone, end_zone):
     fare_per_zone = 1.50
     return zones_crossed, zones_crossed * fare_per_zone
 
+#the fare calculation function computes zones crossed and total fare based on start and end zones

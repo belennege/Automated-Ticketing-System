@@ -5,3 +5,4 @@ stations = {
     "Zord": 3,
     "Soth": 1
 }
+#the stations dictionary maps station named to their respective zones
